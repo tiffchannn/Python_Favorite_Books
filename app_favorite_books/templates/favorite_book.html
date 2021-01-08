@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Favorite Books</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  </head>
+  <body>
+
+    <header>
+      <div class="header-content">
+        <h1>Welcome, {{logged_user.first_name}}</h1>
+        <a href="/logout">Log Out</a>
+      </div>
+    </header>
+
+    <a class="back-link" href="/books">Go Back to Dashboard 🏠</a>
+
+    <hr>
+
+      {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+    <div id="container">
+
+      <div class="fave-book-info">
+
+        <form method='POST'>
+          {% csrf_token %}
+          <div class="form-group">
+            <input type="text" class="form-control form-control-lg" name="title" value="{{book.title}}">
+            <p>Added By: {{book.uploaded_by.first_name}} {{book.uploaded_by.last_name}}</p>
+            <p>Added On: {{book.created_at}}</p>
+            <p>Last Updated On: {{book.updated_at}}</p>
+
+            <label for="description" class="col-sm-2 col-form-label">Description: </label>
+            <div class="col-sm-auto">
+              <textarea class="form-control" name="desc">{{book.desc}}</textarea>
+            </div>
+          </div>
+
+          <input type="submit" class="btn btn-primary" name="button" value="Update">
+          <input type="submit" class="btn btn-primary" name="button" value="Delete">
+        </form>
+
+      </div>
+
+      {# loop through all books and display each book from database #}
+
+      <div class="user-list">
+        <h2>Users Who Like This Book</h2>
+        {% for user in users_who_like %}
+        <div class="listed-user">
+          <li>{{user.first_name}} {{user.last_name}}</li>
+        </div>
+        {% endfor %}
+        <a href="/unfavorite/{{book.id}}">Un-Favorite 👎🏼</a>
+      </div>
+
+    </div>
+
+
+  </body>
+</html>

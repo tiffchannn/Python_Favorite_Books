@@ -1,0 +1,115 @@
+# Add User
+
+
+
+# Add Book
+
+To get the user who uploaded a book:
+      Book.objects.first().uploaded_by
+
+To get the list of books uploaded by a user:
+      User.objects.first().books_uploaded.all()
+
+To get the list of users who like a book:
+      Book.objects.first().users_who_like.all()
+
+To get the list of books a user likes:
+      User.objects.first().liked_books.all()
+
+
+Get User's Who Like Any Book in DB:
+  all_users_who_like = Book.objects.first().users_who_like.all()
+  for user is all_users_who_like:
+  user.first_name
+
+>>> Get user first name who like specific Book:
+  Book.objects.get(id=book_id).users_who_like.all()
+
+  book# = Book.objects.get(id=book_id)
+  book#.users_who_like.all() -> gives list/array with use who likes book
+  book#.users_who_like.all()[0] --> first user who like's book 6
+  book#.users_who_like.all()[0].first_name --> first user's name
+    ---> EXAMPLE:
+    book7 = Book.objects.get(id=7);
+    likeBook7 = book7.users_who_like.all()
+    for user in likeBook7:
+        user.id
+
+
+
+
+
+
+updating title and description
+
+if request.method == 'POST':
+      # process the form
+        book = Book.objects.get(id=book_id)
+
+            errors = Book.objects.validate_book(request.POST)
+            user = User.objects.get(id=request.session['user_id'])
+        if (request.POST['button'] == 'Update'):
+          #if request post button is update
+            if (request.POST['title'] != book.title):
+            book_to_update.title = request.POST['title']
+            #check to make sure title is valid - any spaces?
+            # it's ok if desc not updated
+            # print(title was changed)
+            elif (request.POST['desc'] != book.desc):
+            # else if desc has been changed
+              #validate desc
+              # it's ok if title not changed
+              #print(desc was changed)
+            elif (request.POST['title'] != book.title and request.POST['desc'] != book.desc):
+              #validate both title and desc
+
+            print('this is updating id: ' + str(id))
+
+
+if request.method == 'POST':
+      # process the form
+        book = Book.objects.get(id=book_id)
+
+            errors = Book.objects.validate_book(request.POST)
+            user = User.objects.get(id=request.session['user_id'])
+        if (request.POST['button'] == 'Update'):
+          #if request post button is update
+            # errors = Book.objects.validate_book(request.POST)
+            if (request.POST['title'] != book.title):
+            book_to_update.title = request.POST['title']
+            #check to make sure title is valid - any spaces?
+            # it's ok if desc not updated
+            # print(title was changed)
+            elif (request.POST['desc'] != book.desc):
+            # else if desc has been changed
+              #validate desc
+              # it's ok if title not changed
+              #print(desc was changed)
+            elif (request.POST['title'] != book.title and request.POST['desc'] != book.desc):
+              #validate both title and desc
+
+            print('this is updating id: ' + str(id))
+
+
+            if len(errors) > 0:
+                for key, value in errors.items():
+                    messages.error(request, value)
+                return redirect('/books')
+            else:
+                book_to_update = Book.objects.get(id=book_id)
+                book_to_update.title = request.POST['title']
+                book_to_update.desc = request.POST['desc']
+                book_to_update.save()
+
+                print('Book was updated!', request.POST)
+                return redirect('/books')
+
+        elif (request.POST['button'] == 'Delete'):
+            print('this is deleting id: ' + str(id))
+
+            book_to_delete = Book.objects.get(id=book_id)
+            book_to_delete.delete()
+            print('This book was deleted!')
+            #redirect to all books
+            # print('this is processing the form: ' + str(id))
+            return redirect('/books')

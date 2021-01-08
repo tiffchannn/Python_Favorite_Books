@@ -1,0 +1,52 @@
+#container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.col-sm-2{
+  max-width: 100%
+}
+
+.btn-primary{
+  margin-left: 10px
+}
+
+header{
+  padding: 15px;
+}
+
+.header-content{
+  display: flex;
+  justify-content: space-between;
+}
+
+.messages{
+  color: orange;
+}
+
+p{
+  margin-bottom: none;
+}
+
+.book-list-title{
+  font-size: 18px;
+}
+
+.listed-book {
+  padding-bottom: 5px;
+  margin-top: 19px;
+}
+
+.fave-note{
+  margin-top: none;
+}
+
+.add-fave-link{
+  text-decoration: underline;
+}
+
+.back-link{
+  margin-left: 20px;
+}
